@@ -210,6 +210,10 @@ async def submit(session: AsyncSession, user: AuthUser, body: SubmitClaimBody) -
             ),
         ]
     )
+    # Persist the claim + SUBMITTED/AI_STARTED events *before* invoking the AI, so a
+    # failed/timed-out adjudication still leaves a visible, auditable claim record
+    # (matches claims.service.ts, where claim.create committed before ai.adjudicate).
+    await session.commit()
 
     packet = ClaimPacket(
         ref=claim_number,

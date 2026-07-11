@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, EmailStr, Field
 
 
 class SignupBody(BaseModel):
@@ -15,5 +15,5 @@ class SignupBody(BaseModel):
 
 
 class LoginBody(BaseModel):
-    email: str
+    email: EmailStr
     password: str
